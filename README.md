@@ -24,7 +24,7 @@ How to use it?
 --------------
 Create a `dotNet Socket` and establish a connection to your server. Then, pass it to the `SSLStream` class. Now, you can use `write` and `read` methods of the `SSLStream` class to send and receive data from/to server.
 
-To validate a server certificate, you can modify `SampleCertificateVerifier` class.
+To validate a server certificate, you can modify `SampleCertificateVerifier` function.
 
 Copyright
 ---------
