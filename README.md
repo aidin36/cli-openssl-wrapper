@@ -12,7 +12,7 @@ SSLContext is a simple wrapper around the OpenSSL's CTX object. It just initiali
 
 SSLStream wrapps a `.Net Socket`, and automatically encrypt messages before writing them to the socket, and decrypt them after reading them from the socket. It gives you a clean interface to work with SSL.
 
-Inside, to make OpenSSL work with .Net Socket, there's a custom BIO. BIO is something that OpenSSL can write to and read from it. So, I wrote a BIO which can write to and read from .Net Socket, and pass it to OpenSSL. `BIO_mng_socks' files define the BIO, and `ManagedSocketToBIO' is the class that actually wrapps the `.Net Socket`.
+Inside, to make OpenSSL work with .Net Socket, there's a custom BIO. BIO is something that OpenSSL can write to and read from it. So, I wrote a BIO which can write to and read from .Net Socket, and pass it to OpenSSL. `BIO_mng_socks` files define the BIO, and `ManagedSocketToBIO` is the class that actually wrapps the `.Net Socket`.
 
 What is supported?
 ------------------
