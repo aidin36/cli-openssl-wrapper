@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{71058650-419D-4B89-8A13-BBB26908EA82}</ProjectGuid>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>CLIOpenSSLWrapper</RootNamespace>
+    <ProjectName>CLIOpenSSLWrapper</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>openssl_includes\;$(IncludePath)</IncludePath>
+    <LibraryPath>openssl_libs\;$(LibraryPath)</LibraryPath>
+    <OutDir>bin\Debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>openssl_includes;$(IncludePath)</IncludePath>
+    <LibraryPath>openssl_libs;$(LibraryPath)</LibraryPath>
+    <OutDir>bin\Release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\openssl_libs\libcrypto-1_1.dll" "$(TargetDir)"
+copy "$(ProjectDir)\openssl_libs\libssl-1_1.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\openssl_libs\libcrypto-1_1.dll" "$(TargetDir)"
+copy "$(ProjectDir)\openssl_libs\libssl-1_1.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BIO_mng_socks.h" />
+    <ClInclude Include="ErrorObject.h" />
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="ManagedSocketToBIO.h" />
+    <ClInclude Include="SampleCertificateVerifier.h" />
+    <ClInclude Include="SSLContext.h" />
+    <ClInclude Include="SSLStream.h" />
+    <ClInclude Include="Stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="BIO_mng_socks.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
+    <ClCompile Include="ManagedSocketToBIO.cpp" />
+    <ClCompile Include="SampleCertificateVerifier.cpp" />
+    <ClCompile Include="SSLStream.cpp" />
+    <ClCompile Include="SSLContext.cpp" />
+    <ClCompile Include="Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.txt">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
