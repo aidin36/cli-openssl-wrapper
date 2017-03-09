@@ -24,7 +24,51 @@ How to use it?
 --------------
 Create a `dotNet Socket` and establish a connection to your server. Then, pass it to the `SSLStream` class. Now, you can use `write` and `read` methods of the `SSLStream` class to send and receive data from/to server.
 
+Note that the `dotNet Socket` should no longer be used.
+
 To validate a server certificate, you can modify `SampleCertificateVerifier` function.
+
+The project is created to compile with `dotNet framework 3.5`, so `Visual Studio 2008` should be installed on your system. You can change the setting if you want to use higher versions of dotNet.
+
+Here is an example code:
+
+``` C#
+using System;
+using System.Collections.Generic;
+
+namespace CLIOpenSSLWrapperSample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Creating a TCP Stream socket.
+            System.Net.Sockets.Socket clientSocket = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                                                                                   System.Net.Sockets.SocketType.Stream,
+                                                                                   System.Net.Sockets.ProtocolType.Tcp);
+            // SSL Protocol requires the socket to be blocking.
+            clientSocket.Blocking = true;
+
+            // Connecting the socket to the server.
+            clientSocket.Connect("192.168.22.1", 9081);
+
+            // Wrapping the socket with a SSL Stream.
+            CLIOpenSSLWrapper.SSLContext sslContext = new CLIOpenSSLWrapper.SSLContext();
+            CLIOpenSSLWrapper.SSLStream sslStream = new CLIOpenSSLWrapper.SSLStream(sslContext, clientSocket);
+
+            // Making a SSL connection (e.g. letting OpenSSL doing its handshake.)
+            sslStream.Connect();
+
+            // Sending six bytes of test data.
+            byte[] testData = { 64, 12, 123, 222, 32, 41 };
+            sslStream.Write(testData, 0, 6);
+
+            // Receiving eight bytes of test data.
+            byte[] receivedBuffer = sslStream.Read(8);
+        }
+    }
+}
+```
 
 Copyright
 ---------
