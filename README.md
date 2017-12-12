@@ -30,6 +30,8 @@ To validate a server certificate, you can modify `SampleCertificateVerifier` fun
 
 The project is created to compile with `dotNet framework 3.5`, so `Visual Studio 2008` should be installed on your system. You can change the setting if you want to use higher versions of dotNet.
 
+*Important Note*: Unfortunately, right now, you have to call Dispose of `SSLStream' and `SSLContext' manually.
+
 Here is an example code:
 
 ``` C#
@@ -56,15 +58,23 @@ namespace CLIOpenSSLWrapperSample
             CLIOpenSSLWrapper.SSLContext sslContext = new CLIOpenSSLWrapper.SSLContext();
             CLIOpenSSLWrapper.SSLStream sslStream = new CLIOpenSSLWrapper.SSLStream(sslContext, clientSocket);
 
-            // Making a SSL connection (e.g. letting OpenSSL doing its handshake.)
-            sslStream.Connect();
+            try
+            {
+                // Making a SSL connection (e.g. letting OpenSSL doing its handshake.)
+                sslStream.Connect();
 
-            // Sending six bytes of test data.
-            byte[] testData = { 64, 12, 123, 222, 32, 41 };
-            sslStream.Write(testData, 0, 6);
+                // Sending six bytes of test data.
+                byte[] testData = { 64, 12, 123, 222, 32, 41 };
+                sslStream.Write(testData, 0, 6);
 
-            // Receiving eight bytes of test data.
-            byte[] receivedBuffer = sslStream.Read(8);
+                // Receiving eight bytes of test data.
+                byte[] receivedBuffer = sslStream.Read(8);
+			}
+            finally
+            {
+                sslStream.Dispose();
+                sslContext.Dispose();
+            }
         }
     }
 }
