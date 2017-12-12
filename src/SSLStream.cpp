@@ -49,6 +49,7 @@ SSLStream::SSLStream(SSLContext^ context, System::Net::Sockets::Socket^ sock)
 
 SSLStream::~SSLStream()
 {
+	SSL_free(sslPtr);
     BIO_free(this->wrappedBio);
 }
 

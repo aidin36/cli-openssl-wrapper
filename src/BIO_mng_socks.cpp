@@ -69,7 +69,9 @@ static int mns_free(BIO* bio)
 {
     ManagedSocketToBIOHolder* holder = (ManagedSocketToBIOHolder*)BIO_get_data(bio);
 
-    delete holder;
+    delete holder->ptr;
+	holder->ptr = nullptr;
+	delete holder;
 
     return 1;
 }

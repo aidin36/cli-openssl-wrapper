@@ -33,6 +33,11 @@ ManagedSocketToBIO::ManagedSocketToBIO(System::Net::Sockets::Socket^ sock)
 
 ManagedSocketToBIO::~ManagedSocketToBIO()
 {
+	if (this->internalSocket->Connected)
+	{
+		this->internalSocket->Close();
+	}
+	this->internalSocket = nullptr;
 }
 
 BIO* ManagedSocketToBIO::createBio()
