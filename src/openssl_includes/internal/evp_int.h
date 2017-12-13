@@ -356,6 +356,7 @@ struct evp_pkey_st {
     int references;
     const EVP_PKEY_ASN1_METHOD *ameth;
     ENGINE *engine;
+    ENGINE *pmeth_engine; /* If not NULL public key ENGINE to use */
     union {
         void *ptr;
 # ifndef OPENSSL_NO_RSA
@@ -380,3 +381,10 @@ struct evp_pkey_st {
 void openssl_add_all_ciphers_int(void);
 void openssl_add_all_digests_int(void);
 void evp_cleanup_int(void);
+
+/* Pulling defines out of C soure files */
+
+#define EVP_RC4_KEY_SIZE 16
+#ifndef TLS1_1_VERSION
+# define TLS1_1_VERSION   0x0302
+#endif
